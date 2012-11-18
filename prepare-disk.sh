@@ -20,13 +20,13 @@ parted $device mklabel msdos
 # Create boot partition
 part_start=0
 part_end=$(( part_start + part_size_boot ))
-parted $device mkpart primary ext2 $part_start $part_end
+parted --align=none $device mkpart primary ext2 $part_start $part_end
 device_boot=${device}1
 
 # Create swap partition
 part_start=$part_end
 part_end=$(( part_start + part_size_swap ))
-parted $device mkpart primary linux-swap $part_start $part_end
+parted --align=none $device mkpart primary linux-swap $part_start $part_end
 device_swap=${device}2
 
 # Create root partition
@@ -36,7 +36,7 @@ if [ $part_size_root -eq 0 ] ; then
 else
     part_end=$(( part_start + part_size_root ))
 fi
-parted $device mkpart primary ext2 $part_start $part_end
+parted --align=none $device mkpart primary ext2 $part_start $part_end
 device_root=${device}3
 
 # Set boot flag
