@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Looking for drives
-device_info=$( parted -lm | grep -E "/dev/[[:alpha:]]{3}:" )
+device_info=$( parted -lm | grep -E "/dev/[[:alpha:]]+:" )
 device=$( echo $device_info | cut -d ':' -f 1 )
-device_size=$( echo $device_info | cut -d ':' -f 2 )
+#device_size=$( echo $device_info | cut -d ':' -f 2 )
 
 part_size_boot=256
 part_size_swap=4096
-part_size_root=0
+part_size_root=-1
 
 
 
@@ -31,10 +31,10 @@ device_swap=${device}2
 
 # Create root partition
 part_start=$part_end
-if [ $part_size_root -eq 0 ] ; then
-    part_end=$device_size
-else
+if [ $part_size_root -ge 0 ] ; then
     part_end=$(( part_start + part_size_root ))
+else
+    part_end='-1s'
 fi
 parted --align=none $device mkpart primary ext2 $part_start $part_end
 device_root=${device}3
