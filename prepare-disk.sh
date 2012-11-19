@@ -54,4 +54,10 @@ swapon $device_swap
 # Make filesystem on 'root'
 mkfs.ext3 $device_root
 
+# Mounting
+mkdir /mnt/gentoo
+mount $device_root /mnt/gentoo
+mkdir /mnt/gentoo/boot
+mount $device_boot /mnt/gentoo/boot
+
 
