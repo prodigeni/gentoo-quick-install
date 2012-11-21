@@ -1,0 +1,37 @@
+#/bin/bash
+
+# Check if this file has already been imported.
+if [ -n "$_CONFIG_RC" ] ; then
+    return
+else
+    _CONFIG_RC='defined'
+fi
+
+
+# Number of CPU cores
+CPU_CORES=$( cat /proc/cpuinfo | grep processor | wc -l )
+
+
+# CPU architecture and type
+CPU_ARCH=$( arch )
+case $CPU_ARCH in
+    i[3-6]86) CPU_TYPE='x86' ;;
+    *) CPU_TYPE='undef' ;;
+esac
+
+
+# Disk device
+DEVICE=
+
+
+# Gentoo mirror list
+GENTOO_MIRRORS=
+
+echo "
+CPU cores: $CPU_CORES
+CPU arch: $CPU_ARCH
+CPU type: $CPU_TYPE
+Device: $DEVICE
+Gentoo mirrors: $GENTOO_MIRRORS
+"
+
